@@ -1,4 +1,4 @@
-# Enquiry
+# Enquiry 
 
 After a user submits your site's contact form, __enquiry__ will help you run
 your post-submit actions. These actions will be run as separate processes, by plugging
@@ -8,6 +8,12 @@ It currently has support for:
 * sending notification emails to the site owner
 * subscribing the enquiry to a Mailchimp list
 * adding the enquiry's details to a Google Sheet
+
+## Build Status
+master: ![Build Status](https://travis-ci.org/timiyay/enquiry.svg?branch=master)
+
+develop: ![Build Status](https://travis-ci.org/timiyay/enquiry.svg?branch=develop)
+
 
 ## Installation
 
