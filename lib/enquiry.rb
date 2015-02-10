@@ -1,5 +1,7 @@
-require "enquiry/version"
+require 'enquiry/version'
 
 module Enquiry
-  # Your code goes here...
+  def self.root
+    File.dirname __dir__
+  end
 end
