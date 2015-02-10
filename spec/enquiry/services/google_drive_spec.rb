@@ -15,25 +15,25 @@ describe GoogleDriveService do
 
   before do
     ENV.update(
-      'BRIDGEEDU_GDRIVE_CLIENT_ID' => 'client-id',
-      'BRIDGEEDU_GDRIVE_CLIENT_SECRET' => 'client-secret',
-      'BRIDGEEDU_GDRIVE_SHEET_ID' => 'sheet-id'
+      'ENQUIRY_GDRIVE_CLIENT_ID' => 'client-id',
+      'ENQUIRY_GDRIVE_CLIENT_SECRET' => 'client-secret',
+      'ENQUIRY_GDRIVE_SHEET_ID' => 'sheet-id'
     )
   end
 
   context 'config validation' do
     it 'fails if OAuth2 client id is missing' do
-      ENV['BRIDGEEDU_GDRIVE_CLIENT_ID'] = nil
+      ENV['ENQUIRY_GDRIVE_CLIENT_ID'] = nil
       expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
     end
 
     it 'fails if OAuth2 client secret is missing' do
-      ENV['BRIDGEEDU_GDRIVE_CLIENT_SECRET'] = nil
+      ENV['ENQUIRY_GDRIVE_CLIENT_SECRET'] = nil
       expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
     end
 
     it 'fails if Google Sheet document id is missing' do
-      ENV['BRIDGEEDU_GDRIVE_SHEET_ID'] = nil
+      ENV['ENQUIRY_GDRIVE_SHEET_ID'] = nil
       expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
     end
   end
@@ -42,11 +42,11 @@ describe GoogleDriveService do
     let(:access_token) { 'drive-api-access-token' }
 
     before do
-      allow(store).to receive(:get).with('BRIDGEEDU_GDRIVE_ACCESS_TOKEN').and_return(access_token)
+      allow(store).to receive(:get).with('ENQUIRY_GDRIVE_ACCESS_TOKEN').and_return(access_token)
     end
 
     it 'loads stored access token' do
-      expect(store).to receive(:get).with('BRIDGEEDU_GDRIVE_ACCESS_TOKEN').and_return(access_token)
+      expect(store).to receive(:get).with('ENQUIRY_GDRIVE_ACCESS_TOKEN').and_return(access_token)
       expect(drive_api.access_token).to eq access_token
     end
 
@@ -57,7 +57,7 @@ describe GoogleDriveService do
       let(:refresh_token) { 'drive-api-refresh-token' }
 
       before do
-        allow(store).to receive(:get).with('BRIDGEEDU_GDRIVE_REFRESH_TOKEN').and_return(refresh_token)
+        allow(store).to receive(:get).with('ENQUIRY_GDRIVE_REFRESH_TOKEN').and_return(refresh_token)
         allow(Google::APIClient).to receive(:new).and_return(api_client)
       end
 
@@ -75,7 +75,7 @@ describe GoogleDriveService do
 
       it 'stores new access token' do
         drive_api.refresh_access_token
-        expect(store).to have_received(:set).with('BRIDGEEDU_GDRIVE_ACCESS_TOKEN', new_access_token)
+        expect(store).to have_received(:set).with('ENQUIRY_GDRIVE_ACCESS_TOKEN', new_access_token)
       end
 
       it 'raises error if API rejects token request' do

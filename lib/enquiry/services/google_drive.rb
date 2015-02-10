@@ -12,12 +12,12 @@ class GoogleDriveService
   attr_accessor :client_id, :client_secret, :sheet_id
 
   def initialize(sheet_id, row, client_secret: nil, client_id: nil, store: nil)
-    @client_id = client_id || ENV['BRIDGEEDU_GDRIVE_CLIENT_ID']
-    @client_secret = client_secret || ENV['BRIDGEEDU_GDRIVE_CLIENT_SECRET']
+    @client_id = client_id || ENV['ENQUIRY_GDRIVE_CLIENT_ID']
+    @client_secret = client_secret || ENV['ENQUIRY_GDRIVE_CLIENT_SECRET']
     @row = row
     @session = nil
     @sheet = nil
-    @sheet_id = sheet_id || ENV['BRIDGEEDU_GDRIVE_SHEET_ID']
+    @sheet_id = sheet_id || ENV['ENQUIRY_GDRIVE_SHEET_ID']
     @store = store || StorageService.new
 
     # Stash these attrs in pseudo-private variables, as we'll be using
@@ -68,11 +68,11 @@ class GoogleDriveService
   private
 
   def access_token
-    @_access_token ||= @store.get('BRIDGEEDU_GDRIVE_ACCESS_TOKEN') || 'no-access-token-available'
+    @_access_token ||= @store.get('ENQUIRY_GDRIVE_ACCESS_TOKEN') || 'no-access-token-available'
   end
 
   def access_token=(token)
-    @store.set 'BRIDGEEDU_GDRIVE_ACCESS_TOKEN', token
+    @store.set 'ENQUIRY_GDRIVE_ACCESS_TOKEN', token
     @_access_token = token
   end
 
@@ -107,7 +107,7 @@ class GoogleDriveService
   end
 
   def refresh_token
-    @_refresh_token ||= @store.get 'BRIDGEEDU_GDRIVE_REFRESH_TOKEN'
+    @_refresh_token ||= @store.get 'ENQUIRY_GDRIVE_REFRESH_TOKEN'
   end
 
   def sheet
