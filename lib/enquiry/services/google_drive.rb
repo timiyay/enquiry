@@ -14,13 +14,17 @@ class GoogleDriveService
 
   attr_accessor :client_id, :client_secret, :sheet_id
 
-  def self.add_contact_to_sheet(sheet_id, contact)
-    drive_api = GoogleDriveService.new sheet_id, contact
-    drive_api.ensure_session
-    drive_api.add_contact_to_sheet
+  def self.add_contact_to_sheet(sheet_id, row, client_id: nil, client_secret: nil, store: nil)
+    GoogleDriveService.new(
+      sheet_id,
+      row,
+      client_id: client_id,
+      client_secret: client_secret,
+      store: store
+    ).add_contact_to_sheet
   end
 
-  def initialize(sheet_id, row, client_secret: nil, client_id: nil, store: nil)
+  def initialize(sheet_id, row, client_id: nil, client_secret: nil, store: nil)
     @client_id = client_id || ENV['ENQUIRY_GDRIVE_CLIENT_ID']
     @client_secret = client_secret || ENV['ENQUIRY_GDRIVE_CLIENT_SECRET']
     @row = row
@@ -38,6 +42,7 @@ class GoogleDriveService
   end
 
   def add_contact_to_sheet
+    ensure_session
     worksheet = @sheet.worksheets.first
     worksheet.list.push @row
     worksheet.save
@@ -115,7 +120,7 @@ class GoogleDriveService
   end
 
   def start_session
-    @session = GoogleDrive.login_with_oauth(access_token)
+    @session ||= GoogleDrive.login_with_oauth(access_token)
   end
 
   def validate_config
