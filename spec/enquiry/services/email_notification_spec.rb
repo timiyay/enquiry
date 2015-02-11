@@ -4,7 +4,6 @@ require 'enquiry/services/email_notification'
 describe Enquiry::EmailNotificationService do
   let(:email_body) { Faker::Company.catch_phrase }
   let(:email_subject) { Faker::Company.bs }
-  let(:mailer) { class_double Pony }
   let(:recipient) { Faker::Internet.safe_email }
   let(:sender) { Faker::Internet.safe_email }
 
