@@ -1,5 +1,5 @@
-# require_relative '../../spec_helper'
-# require_relative '../../../services/storage'
+require 'spec_helper'
+require 'enquiry/services/storage'
 
-# describe StorageService do
-# end
+describe StorageService do
+end
