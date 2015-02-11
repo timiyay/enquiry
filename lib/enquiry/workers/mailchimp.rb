@@ -1,10 +1,16 @@
 require 'sidekiq'
-require_relative '../services/mailchimp'
+require 'enquiry/services/mailchimp'
 
-class MailchimpWorker
-  include Sidekiq::Worker
+module Enquiry
+  class MailchimpWorker
+    include Sidekiq::Worker
 
-  def perform(email, merge_params)
-    MailchimpService.add_contact_to_list(email, merge_params: merge_params)
+    def perform(mailchimp_params)
+      MailchimpService.add_contact_to_list(
+        mailchimp_params[:list_id],
+        mailchimp_params[:email],
+        merge_params: mailchimp_params[:merge_params]
+      )
+    end
   end
 end

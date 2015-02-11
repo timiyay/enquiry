@@ -22,6 +22,6 @@ Sidekiq.configure_server do |config|
   config.redis = { size: 4 }
 end
 
-require_relative './contact_notification'
-require_relative './google_drive'
-require_relative './mailchimp'
+require 'enquiry/services/email_notification'
+require 'enquiry/services/google_drive'
+require 'enquiry/services/mailchimp'

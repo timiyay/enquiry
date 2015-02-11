@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'enquiry/services/email_notification'
 
-describe EmailNotificationService do
+describe Enquiry::EmailNotificationService do
   let(:email_body) { Faker::Company.catch_phrase }
   let(:email_subject) { Faker::Company.bs }
   let(:mailer) { class_double Pony }
@@ -26,7 +26,7 @@ describe EmailNotificationService do
 
   context '#deliver' do
     subject do
-      EmailNotificationService.deliver(
+      Enquiry::EmailNotificationService.deliver(
         to: recipient,
         from: sender,
         subject: email_subject,
@@ -58,7 +58,7 @@ describe EmailNotificationService do
 
     it "raises an error if required params aren't provided" do
       required_params = %w(to from address password user_name)
-      expect { EmailNotificationService.deliver }.to raise_error(EmailNotificationService::ConfigError) do |error|
+      expect { Enquiry::EmailNotificationService.deliver }.to raise_error(Enquiry::ConfigError) do |error|
         required_params.each { |v| expect(error.message).to include(v) }
       end
     end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'enquiry/services/mailchimp'
 
-describe MailchimpService do
+describe Enquiry::MailchimpService do
   let(:api_key) { 'mailchimp-api-key' }
   let(:email) { Faker::Internet.email }
   let(:list_id) { 'mailchimp-list-id' }
@@ -9,11 +9,13 @@ describe MailchimpService do
 
   context 'config validation' do
     it 'fails if Mailchimp API key is missing' do
-      expect { MailchimpService.new(list_id, email, api_key: nil, merge_params: merge_params) }.to raise_error(MailchimpService::ConfigError)
+      expect { Enquiry::MailchimpService.new(list_id, email, api_key: nil, merge_params: merge_params) }
+        .to raise_error(Enquiry::ConfigError)
     end
 
     it 'fails if Mailchimp list id is missing' do
-      expect { MailchimpService.new(nil, email, api_key: api_key, merge_params: merge_params) }.to raise_error(MailchimpService::ConfigError)
+      expect { Enquiry::MailchimpService.new(nil, email, api_key: api_key, merge_params: merge_params) }
+        .to raise_error(Enquiry::ConfigError)
     end
   end
 
@@ -33,7 +35,7 @@ describe MailchimpService do
           true                                # update subscriber info, if already existing?
         )
 
-      MailchimpService.add_contact_to_list(list_id, email, api_key: api_key, merge_params: merge_params)
+      Enquiry::MailchimpService.add_contact_to_list(list_id, email, api_key: api_key, merge_params: merge_params)
     end
   end
 end

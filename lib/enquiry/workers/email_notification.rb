@@ -1,10 +1,18 @@
 require 'sidekiq'
-require_relative '../services/contact'
+require 'enquiry/services/email_notification'
 
-class ContactNotificationWorker
-  include Sidekiq::Worker
+module Enquiry
+  class EmailNotificationWorker
+    include Sidekiq::Worker
 
-  def perform(contact_params)
-    ContactService.new(contact_params).send_notification_email
+    def perform(email_params)
+      EmailNotificationService.deliver(
+        to: email_params[:to],
+        from: email_params[:from],
+        subject: email_params[:subject],
+        body: email_params[:body],
+        provider: email_params[:provider]
+      )
+    end
   end
 end

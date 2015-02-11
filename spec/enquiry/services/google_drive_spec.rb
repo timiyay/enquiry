@@ -1,32 +1,37 @@
 require 'spec_helper'
 require 'enquiry/services/google_drive'
 
-# Make certain privileged methods and attributes public, for testing purposes
-class GoogleDriveService
-  public :access_token, :refresh_access_token, :refresh_token
+module Enquiry
+  # Make certain privileged methods and attributes public, for testing purposes
+  class GoogleDriveService
+    public :access_token, :refresh_access_token, :refresh_token
+  end
 end
 
-describe GoogleDriveService do
+describe Enquiry::GoogleDriveService do
   let(:client_id) { 'client-id' }
   let(:client_secret) { 'client-secret' }
-  let(:drive_api) { GoogleDriveService.new(sheet_id, row, client_id: client_id, client_secret: client_secret, store: store) }
+  let(:drive_api) { Enquiry::GoogleDriveService.new(sheet_id, row, client_id: client_id, client_secret: client_secret, store: store) }
   let(:row) { [[:name, Faker::Name.name], [:email, Faker::Internet.email]] }
   let(:session) { instance_double(GoogleDrive::Session) }
   let(:sheet) { instance_spy(GoogleDrive::Spreadsheet) }
   let(:sheet_id) { 'sheet-id' }
-  let(:store) { instance_spy StorageService }
+  let(:store) { instance_spy Enquiry::StorageService }
 
   context 'config validation' do
     it 'fails if OAuth2 client id is missing' do
-      expect { GoogleDriveService.new(sheet_id, row, client_id: nil, client_secret: client_secret) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { Enquiry::GoogleDriveService.new(sheet_id, row, client_id: nil, client_secret: client_secret) }
+        .to raise_error(Enquiry::ConfigError)
     end
 
     it 'fails if OAuth2 client secret is missing' do
-      expect { GoogleDriveService.new(sheet_id, row, client_id: client_id, client_secret: nil) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { Enquiry::GoogleDriveService.new(sheet_id, row, client_id: client_id, client_secret: nil) }
+        .to raise_error(Enquiry::ConfigError)
     end
 
     it 'fails if Google Sheet document id is missing' do
-      expect { GoogleDriveService.new(nil, row, client_id: client_id, client_secret: client_secret) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { Enquiry::GoogleDriveService.new(nil, row, client_id: client_id, client_secret: client_secret) }
+        .to raise_error(Enquiry::ConfigError)
     end
   end
 
@@ -72,7 +77,7 @@ describe GoogleDriveService do
 
       it 'raises error if API rejects token request' do
         allow(auth_client).to receive(:fetch_access_token!).and_raise(Signet::AuthorizationError.new 'message', {})
-        expect { drive_api.refresh_access_token }.to raise_error(GoogleDriveService::OAuth2Error)
+        expect { drive_api.refresh_access_token }.to raise_error(Enquiry::OAuth2Error)
       end
     end
   end
