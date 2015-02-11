@@ -9,7 +9,16 @@ require 'enquiry/services/storage'
 #   - authenticating via OAuth2 access and refresh tokens
 #   - saving data to a Google Sheet document
 class GoogleDriveService
+  OAuth2Error = Class.new(StandardError)
+  ConfigError = Class.new(StandardError)
+
   attr_accessor :client_id, :client_secret, :sheet_id
+
+  def self.add_contact_to_sheet(sheet_id, contact)
+    drive_api = GoogleDriveService.new sheet_id, contact
+    drive_api.ensure_session
+    drive_api.add_contact_to_sheet
+  end
 
   def initialize(sheet_id, row, client_secret: nil, client_id: nil, store: nil)
     @client_id = client_id || ENV['ENQUIRY_GDRIVE_CLIENT_ID']
@@ -26,12 +35,6 @@ class GoogleDriveService
     @_refresh_token = nil
 
     validate_config
-  end
-
-  def self.add_contact_to_sheet(sheet_id, contact)
-    drive_api = GoogleDriveService.new sheet_id, contact
-    drive_api.ensure_session
-    drive_api.add_contact_to_sheet
   end
 
   def add_contact_to_sheet
@@ -61,9 +64,6 @@ class GoogleDriveService
     end
     raise e
   end
-
-  class OAuth2Error < StandardError; end
-  class ConfigError < StandardError; end
 
   private
 

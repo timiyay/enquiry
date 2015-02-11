@@ -7,10 +7,14 @@ class GoogleDriveService
 end
 
 describe GoogleDriveService do
+  let(:client_id) { 'client-id' }
+  let(:client_secret) { 'client-secret' }
   let(:contact) { double name: Faker::Name.name, email: Faker::Internet.email, demographic: 'student' }
   let(:drive_api) { GoogleDriveService.new 'sheet-id', contact, store: store }
+  let(:row) { [[:name, Faker::Name.name], [:email, Faker::Internet.email]] }
   let(:session) { instance_double(GoogleDrive::Session) }
   let(:sheet) { instance_spy(GoogleDrive::Spreadsheet) }
+  let(:sheet_id) { 'sheet-id' }
   let(:store) { instance_spy StorageService }
 
   before do
@@ -24,17 +28,17 @@ describe GoogleDriveService do
   context 'config validation' do
     it 'fails if OAuth2 client id is missing' do
       ENV['ENQUIRY_GDRIVE_CLIENT_ID'] = nil
-      expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { GoogleDriveService.new(sheet_id, row, client_id: nil, client_secret: client_secret) }.to raise_error(GoogleDriveService::ConfigError)
     end
 
     it 'fails if OAuth2 client secret is missing' do
       ENV['ENQUIRY_GDRIVE_CLIENT_SECRET'] = nil
-      expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { GoogleDriveService.new(sheet_id, row, client_id: client_id, client_secret: nil) }.to raise_error(GoogleDriveService::ConfigError)
     end
 
     it 'fails if Google Sheet document id is missing' do
       ENV['ENQUIRY_GDRIVE_SHEET_ID'] = nil
-      expect { GoogleDriveService.new(nil, Hash.new) }.to raise_error(GoogleDriveService::ConfigError)
+      expect { GoogleDriveService.new(nil, row, client_id: client_id, client_secret: client_secret) }.to raise_error(GoogleDriveService::ConfigError)
     end
   end
 
