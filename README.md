@@ -10,10 +10,9 @@ It currently has support for:
 * adding the enquiry's details to a Google Sheet
 
 ## Build Status
-master: ![Build Status](https://travis-ci.org/timiyay/enquiry.svg?branch=master)
+master: ![Build Status](https://travis-ci.org/timiyay/enquiry.svg?branch=master) [![Code Climate](https://codeclimate.com/github/timiyay/enquiry/badges/gpa.svg)](https://codeclimate.com/github/timiyay/enquiry)
 
 develop: ![Build Status](https://travis-ci.org/timiyay/enquiry.svg?branch=develop)
-
 
 ## Installation
 
