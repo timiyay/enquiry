@@ -6,7 +6,7 @@ describe Enquiry::MailchimpWorker do
     {
       list_id: 'mailchimp-list-id',
       email: Faker::Internet.email,
-      merge_params: { 'NAME' => Faker::Name.name, 'DEMOGRAPH' => 'student' }
+      merge_params: { :NAME => Faker::Name.name, :DEMOGRAPH => 'student' }
     }
   end
 
