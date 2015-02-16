@@ -19,12 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'google_drive'
-
-  # Ensure mail gem version for reduced memory footprint
-  # This gem is required by 'pony' gem.
-  # http://www.schneems.com/2014/11/07/i-ram-what-i-ram.html
-  spec.add_runtime_dependency 'mail', '>= 2.6.3'
-
   spec.add_runtime_dependency 'mailchimp-api'
   spec.add_runtime_dependency 'pony'
   spec.add_runtime_dependency 'redis'
