@@ -22,7 +22,7 @@ module Enquiry
     private
 
     def init_store
-      Redis.new url: ENV['REDIS_URL']
+      Redis.new url: ENV['ENQUIRY_REDIS_URL']
     end
   end
 end
