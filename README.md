@@ -1,5 +1,7 @@
 # Enquiry 
 
+#### This repo is no longer maintained
+
 After a user submits your site's contact form, __enquiry__ will help you run
 your post-submit actions. These actions will be run as separate processes, by plugging
 in to a Ruby-based worker library like Sidekiq.
